@@ -1,0 +1,39 @@
+<div class="outer">
+  <!--<iframe src="http://joaopalotti.com/wp-content/uploads/2016/11/p1453-andersson.pdf" class="pdf"></iframe>-->
+  <ul class="term-candidates main-list">
+    <li *ngFor="let termCandidate of term_candidates" (click)="onSelectCandidate(termCandidate)">
+      <div class="term-header" [class.selected]="termCandidate === selectedCandidate">
+        <span class="badge">{{termCandidate.id}}</span>
+        <span>{{termCandidate.name}}</span>
+      </div>
+      <div class="term-options" *ngIf="selectedCandidate == termCandidate">
+        <div>Should be used as a search term</div>
+        <div>
+          <div class="options">
+            <div>Good</div>
+            <div><input type="radio" name={{termCandidate.name}} value="good"></div>
+          </div>
+          <div class="options">
+            <div>Bad</div>
+            <div><input type="radio" name={{termCandidate.name}} value="bad"></div>
+          </div>
+        </div>
+      </div>
+    </li>
+  </ul>
+  <ul class="term-candidates related-terms">
+    <li *ngFor="let relatedTerm of related_terms" (click)="onSelectRelated(relatedTerm)">
+      <div class="term-header" [class.selected]="relatedTerm === selectedRelatedTerm">
+        <span class="badge">{{relatedTerm.id}}</span>
+        <span>{{relatedTerm.name}}</span>
+      </div>
+      <div class="term-options" *ngIf="selectedRelatedTerm == relatedTerm">
+        <div>Relation to "blood cell count":</div>
+        <div><input type="radio" name={{relatedTerm.name}} value="synonym">Synonym</div>
+        <div><input type="radio" name={{relatedTerm.name}} value="hyponym">Hyponym</div>
+        <div><input type="radio" name={{relatedTerm.name}} value="hypernym">Hypernym</div>
+        <div><input type="radio" name={{relatedTerm.name}} value="none">None</div>
+      </div>
+    </li>
+  </ul>
+</div>
