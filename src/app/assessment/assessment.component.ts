@@ -8,6 +8,8 @@ import { PatentTermsService } from '../patent-terms.service';
 })
 export class AssessmentComponent implements OnInit {
 
+  
+
   patentID: string;
   patents: any[] = [];
   term_candidates: any[];
@@ -19,7 +21,7 @@ export class AssessmentComponent implements OnInit {
   constructor(private patentTermsService: PatentTermsService) { }
 
   ngOnInit() {
-    this.patentID = '589a0a2ec216a0209ccf2f85';
+    this.patentID = '58a1e412c216a01fd4321392';
     // Retrieve posts from the API
     this.patentTermsService.getPatent(this.patentID).subscribe(patents => {
       this.term_candidates = patents[0].term_candidates;

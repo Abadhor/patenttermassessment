@@ -1,5 +1,39 @@
 /* You can add global styles to this file, and also import other style files */
+html, body {
+  height: 100%;
+}
 
+body {
+  padding-top: 70px;
+}
 
+.fill {
+  height: 100%;
+}
+
+.scrolling {
+  height: 100%;
+  overflow-y: scroll;
+}
+
+.panel.candidatesClass {
+  background-color: #5bc0de;
+}
+
+.panel.candidatesClass .text-muted{
+  color: #fff;
+}
+
+.panel.relatedClass {
+  background-color: #5bdec0;
+}
+
+.panel.relatedClass .text-muted{
+  color: #fff;
+}
+
+.dashelement {
+  height: 150px;
+}
 
 /*old*/

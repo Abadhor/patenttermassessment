@@ -1,5 +1,59 @@
-<div class="outer">
-  <!--<iframe src="http://joaopalotti.com/wp-content/uploads/2016/11/p1453-andersson.pdf" class="pdf"></iframe>-->
+<div class="row fill">
+  <div class="col-md-6">.col-md-6</div>
+  <div class="col-md-6 fill">
+    <div class="row fill">
+      <div class="col-md-6 scrolling">
+        <accordion [closeOthers]="true">
+          <accordion-group heading="Search Term Candidates" panelClass="candidatesClass" [isDisabled]="true"></accordion-group>
+          <accordion-group heading="{{termCandidate.name}}" *ngFor="let termCandidate of term_candidates" (click)="onSelectCandidate(termCandidate)">
+            <div>Useable as a search term:</div>
+            <label class="radio-inline">
+              <input type="radio" name="{{termCandidate.id}}-candidates" value="good"> Good
+            </label>
+            <label class="radio-inline">
+              <input type="radio" name="{{termCandidate.id}}-candidates" value="in-context"> In Context
+            </label>
+            <label class="radio-inline">
+              <input type="radio" name="{{termCandidate.id}}-candidates" value="bad"> Bad
+            </label>
+          </accordion-group>
+        </accordion>
+      </div>
+      <div class="col-md-6 scrolling">
+        <accordion [closeOthers]="true">
+          <accordion-group heading="Related Terms" panelClass="relatedClass" [isDisabled]="true"></accordion-group>
+          <accordion-group heading="{{relatedTerm.name}}" *ngFor="let relatedTerm of related_terms" (click)="onSelectRelated(relatedTerm)">
+            <div>Relation to "{{selectedCandidate.name}}":</div>
+            <div class="radio">
+              <label>
+                <input type="radio" name="{{selectedCandidate.id}}-{{relatedTerm.id}}-related" value="synonym">Synonym
+              </label>
+            </div>
+            <div class="radio">
+              <label>
+                <input type="radio" name="{{selectedCandidate.id}}-{{relatedTerm.id}}-related" value="hyponym">Hyponym
+              </label>
+            </div>
+            <div class="radio">
+              <label>
+                <input type="radio" name="{{selectedCandidate.id}}-{{relatedTerm.id}}-related" value="hypernym">Hypernym
+              </label>
+            </div>
+            <div class="radio">
+              <label>
+                <input type="radio" name="{{selectedCandidate.id}}-{{relatedTerm.id}}-related" value="none">None
+              </label>
+            </div>
+          </accordion-group>
+        </accordion>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!--<div class="outer">
+  <!--<iframe src="http://joaopalotti.com/wp-content/uploads/2016/11/p1453-andersson.pdf" class="pdf"></iframe>--><!--
   <ul class="term-candidates main-list">
     <li *ngFor="let termCandidate of term_candidates" (click)="onSelectCandidate(termCandidate)">
       <div class="term-header" [class.selected]="termCandidate === selectedCandidate">
@@ -36,4 +90,4 @@
       </div>
     </li>
   </ul>
-</div>
+</div>-->
