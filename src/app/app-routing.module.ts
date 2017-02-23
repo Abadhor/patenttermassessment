@@ -4,24 +4,27 @@ import { Routes, RouterModule } from '@angular/router';
 import { AssessmentComponent } from './assessment/assessment.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { LoginComponent } from './login/login.component';
+import { AuthGuardService } from './auth-guard.service';
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'login',
+    component: LoginComponent,
     pathMatch: 'full'
   },
   {
-    path: 'login',
-    component: LoginComponent
-  },
-  {
     path: 'assessment',
+    canActivate: [AuthGuardService],
     component: AssessmentComponent
   },
   {
     path: 'dashboard',
+    canActivate: [AuthGuardService],
     component: DashboardComponent
+  },
+  {
+    path: '**',
+    redirectTo: ''
   }
 ];
 

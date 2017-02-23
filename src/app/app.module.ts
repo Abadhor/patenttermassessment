@@ -10,6 +10,7 @@ import { AppComponent } from './app.component';
 import { AssessmentComponent } from './assessment/assessment.component';
 import { PatentTermsService } from './patent-terms.service';
 import { UserService } from './user.service';
+import { AuthGuardService } from './auth-guard.service';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { LoginComponent } from './login/login.component';
 
@@ -27,7 +28,11 @@ import { LoginComponent } from './login/login.component';
     AccordionModule.forRoot(),
     AppRoutingModule
   ],
-  providers: [PatentTermsService, UserService],
+  providers: [
+    PatentTermsService,
+    UserService,
+    AuthGuardService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

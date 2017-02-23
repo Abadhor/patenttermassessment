@@ -20,5 +20,10 @@ export class UserService {
     return this.http.post('/api/user/login', JSON.stringify(user), {headers: headers})
       .map(res => res.json());
   }
+  
+  getDomains() {
+    return this.http.get('/api/domains')
+      .map(res => res.json());
+  }
 
 }

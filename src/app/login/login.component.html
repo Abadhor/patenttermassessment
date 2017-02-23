@@ -14,6 +14,7 @@
               <button type="submit" class="btn btn-default">Login</button>
               <h6 id="registerInfo">{{loginDiagnostic}}</h6>
             </form>
+            <button class="btn btn-default" (click)="onLogout()">Logout</button>
           </div>
           <div class="col-md-6">
             <h3>Register</h3>
@@ -23,14 +24,32 @@
                 <input type="email" class="form-control" id="registerEmail" placeholder="Email" required [(ngModel)]="registerForm.email" name="registerEmail">
               </div>
               <div class="form-group">
+                <label >Primary Domain</label>
+                <select class="form-control" id="primaryDomain" [(ngModel)]="registerForm.primaryDomain" name="primaryDomain" required>
+                  <option *ngFor="let domain of domainsPrimary" [value]="domain">{{domain}}</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label >Secondary Domain</label>
+                <select class="form-control" id="secondaryDomain" [(ngModel)]="registerForm.secondaryDomain" name="secondaryDomain" required>
+                  <option *ngFor="let domain of domainsOther" [value]="domain">{{domain}}</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label >Tertiary Domain</label>
+                <select class="form-control" id="tertiaryDomain" [(ngModel)]="registerForm.tertiaryDomain" name="tertiaryDomain" required>
+                  <option *ngFor="let domain of domainsOther" [value]="domain">{{domain}}</option>
+                </select>
+              </div>
+              <!--<div class="form-group">
                 <label >Domain</label>
-                <div class="checkbox" *ngFor="let domain of domains" >
+                <div class="checkbox" *ngFor="let domain of domainsPrimary" >
                   <label>
                     <input type="checkbox" id="domain" [value]="domain" (click)="checkboxOnClick(domain)"> {{domain}}
                   </label>
                 </div>
-              </div>
-              <button type="submit" class="btn btn-primary" [disabled]="(registerForm.domains | json ) === ({} | json)">Register</button>
+              </div>--><!--[disabled]="(registerForm.domains | json ) === ({} | json)"-->
+              <button type="submit" class="btn btn-primary" >Register</button>
               <h6 id="registerInfo">{{diagnostic}}</h6>
             </form>
           </div>

@@ -21,6 +21,55 @@ function isEmpty(obj) {
   return Object.keys(obj).length === 0;
 }
 
+function convertPatentsToUserProfile(user, patentList) {
+  //console.log(patentList);
+  for (var i = 0; i < patentList.length; i++) {
+    var patent = patentList[i];
+    var assessment = { "user": user._id, "patent": patent._id, "name": patent.name };
+    var termCandidates = [];
+    //init term candidates
+    for (var tc = 0; tc < patent.term_candidates.length; tc++) {
+      var term_candidate = patent.term_candidates[tc];
+      //init related terms
+      var relatedTerms = [];
+      if (term_candidate.related_terms) {
+        for (var rt = 0; rt < term_candidate.related_terms.length; rt++) {
+          var related_term = term_candidate.related_terms[rt];
+          relatedTerms.push({"id": related_term.id, "relationship": -1});
+        }
+      }
+      
+      termCandidates.push({"id": term_candidate.id, "search_quality": -1, "related_terms": relatedTerms});
+    }
+    assessment.term_candidates = termCandidates;
+    //insert into DB
+    //console.log(assessment);
+    db.collection('assessments').insertOne(assessment, function(err, insertResults){
+      //console.log(err);
+    });
+  }
+}
+
+function createUserProfile(user) {
+  
+  //search patents based on selected domains
+  if (user.primaryDomain === "all") {
+    var cursor = db.collection('patents').find({}).toArray(function(err, results){
+      convertPatentsToUserProfile(user, results);
+    });
+  } else {
+    var query = {$or:[
+      {domains:user.primaryDomain},
+      {domains:user.secondaryDomain},
+      {domains:user.tertiaryDomain}
+    ]}
+    var cursor = db.collection('patents').find(query).toArray(function(err, results){
+      convertPatentsToUserProfile(user, results);
+    });
+  }
+  
+}
+
 
 /* GET api listing. */
 router.get('/', (req, res) => {
@@ -29,6 +78,12 @@ router.get('/', (req, res) => {
 
 router.get('/patents', (req, res) => {
   var cursor = db.collection('patents').find({}).toArray(function(err, results){
+    res.json(results);
+  });
+});
+
+router.get('/domains', (req, res) => {
+  var cursor = db.collection('domains').find({}, {'sort':[['name','asc']]}).toArray(function(err, results){
     res.json(results);
   });
 });
@@ -43,7 +98,8 @@ router.get('/patent/:id', (req, res) => {
 
 router.post('/user/register', (req, res) => {
   var user = req.body;
-  if (!user.email || isEmpty(user.domains)) {
+  user.password = 'assessment';
+  if (!user.email || !user.primaryDomain || !user.secondaryDomain || !user.tertiaryDomain) {
     res.status(400);
     res.json({
       "error": "Bad Data"
@@ -53,7 +109,8 @@ router.post('/user/register', (req, res) => {
       var len = results.length;
       if (len == 0) {
         db.collection('users').insertOne(user, function(err, insertResults){
-          res.json(user);
+          createUserProfile(insertResults.ops[0]);
+          res.json(insertResults.ops);
         });
       } else {
         res.status(400)

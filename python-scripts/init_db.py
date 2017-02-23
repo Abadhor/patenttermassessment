@@ -19,14 +19,26 @@ client = MongoClient("localhost:27017")
 
 db = client.patent_backend
 db.patents.drop()
+db.domains.drop()
+
+all_domains = set()
 
 fileList = os.listdir(DATA_FOLDER)
 for fname in fileList:
   with io.open(DATA_FOLDER + fname, 'r') as infile:
     reader = csv.reader(infile, delimiter=';')
     patent = dict()
+    #read first line
     patent_name = next(reader)[0]
     patent['name'] = patent_name
+    #read domains
+    patent_domains_data = next(reader)
+    patent_domains = []
+    for domain in patent_domains_data:
+      patent_domains.append(domain)
+      all_domains.add(domain)
+    patent['domains'] = patent_domains
+    #read term candidates
     term_candidates = []
     term_candidate_count = 0
     for row in reader:
@@ -35,6 +47,7 @@ for fname in fileList:
       tc_name = row[0]
       term_candidate['name'] = tc_name
       term_candidate['id'] = term_candidate_count
+      #read related terms of term candidate
       related_term_count = 0
       rt_data = row[1:]
       for entry in rt_data:
@@ -49,4 +62,11 @@ for fname in fileList:
       term_candidate_count += 1
     if len(term_candidates) > 0:
       patent['term_candidates'] = term_candidates
+    #insert patent
     patent_id = db.patents.insert_one(patent)
+
+#insert domains
+for domain_name in all_domains:
+  domain = dict()
+  domain['name'] = domain_name
+  db.domains.insert_one(domain)
