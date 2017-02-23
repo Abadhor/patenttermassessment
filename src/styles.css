@@ -37,4 +37,8 @@ body {
   padding: 10px;
 }
 
+.dashelement.selected {
+  background-color: #ccf;
+}
+
 /*old*/

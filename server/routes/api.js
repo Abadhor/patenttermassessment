@@ -27,6 +27,7 @@ function convertPatentsToUserProfile(user, patentList) {
     var patent = patentList[i];
     var assessment = { "user": user._id, "patent": patent._id, "name": patent.name };
     var termCandidates = [];
+    var selectionCount = 0;
     //init term candidates
     for (var tc = 0; tc < patent.term_candidates.length; tc++) {
       var term_candidate = patent.term_candidates[tc];
@@ -36,12 +37,16 @@ function convertPatentsToUserProfile(user, patentList) {
         for (var rt = 0; rt < term_candidate.related_terms.length; rt++) {
           var related_term = term_candidate.related_terms[rt];
           relatedTerms.push({"id": related_term.id, "relationship": -1});
+          selectionCount++;
         }
       }
       
       termCandidates.push({"id": term_candidate.id, "search_quality": -1, "related_terms": relatedTerms});
+      selectionCount++;
     }
     assessment.term_candidates = termCandidates;
+    assessment.max_selections = selectionCount;
+    assessment.current_selections = 0;
     //insert into DB
     //console.log(assessment);
     db.collection('assessments').insertOne(assessment, function(err, insertResults){
@@ -84,6 +89,13 @@ router.get('/patents', (req, res) => {
 
 router.get('/domains', (req, res) => {
   var cursor = db.collection('domains').find({}, {'sort':[['name','asc']]}).toArray(function(err, results){
+    res.json(results);
+  });
+});
+
+router.get('/assessments/user/:id', (req, res) => {
+  o_id = new mongo.ObjectID(req.params.id);
+  var cursor = db.collection('assessments').find({'user': o_id}).toArray(function(err, results){
     res.json(results);
   });
 });

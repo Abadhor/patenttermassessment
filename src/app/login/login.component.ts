@@ -49,7 +49,8 @@ export class LoginComponent implements OnInit {
       .subscribe(user => {
         sessionStorage.setItem('currentUser', JSON.stringify(user[0]));
         this.loginDiagnostic = "Login with ID " + JSON.parse(sessionStorage.getItem('currentUser'))['_id'];
-        console.log(sessionStorage.getItem('currentUser'));
+        //console.log(sessionStorage.getItem('currentUser'));
+        this.router.navigate(['dashboard']);
       },
       error => {this.loginDiagnostic = "Email not registered."});
   }

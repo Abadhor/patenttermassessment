@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AssessmentService } from '../assessment.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -7,9 +8,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DashboardComponent implements OnInit {
 
-  constructor() { }
+  assessments: any[] = [];
+  selectedAssessment: any;
+
+  constructor(private assessmentService: AssessmentService) { }
 
   ngOnInit() {
+    let user = JSON.parse(sessionStorage.getItem('currentUser'));
+    this.assessmentService.getAssessments(user._id).subscribe(assessments => {
+      this.assessments = assessments;
+    });
+  }
+  
+  onSelect(assessment: any) {
+    this.selectedAssessment = assessment;
   }
 
 }

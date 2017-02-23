@@ -8,9 +8,12 @@ import { AccordionModule } from 'ng2-bootstrap';
 
 import { AppComponent } from './app.component';
 import { AssessmentComponent } from './assessment/assessment.component';
+
 import { PatentTermsService } from './patent-terms.service';
 import { UserService } from './user.service';
 import { AuthGuardService } from './auth-guard.service';
+import { AssessmentService } from './assessment.service';
+
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { LoginComponent } from './login/login.component';
 
@@ -31,7 +34,8 @@ import { LoginComponent } from './login/login.component';
   providers: [
     PatentTermsService,
     UserService,
-    AuthGuardService
+    AuthGuardService,
+    AssessmentService
   ],
   bootstrap: [AppComponent]
 })
