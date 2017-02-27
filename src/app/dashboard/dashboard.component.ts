@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AssessmentService } from '../assessment.service';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -11,7 +12,7 @@ export class DashboardComponent implements OnInit {
   assessments: any[] = [];
   selectedAssessment: any;
 
-  constructor(private assessmentService: AssessmentService) { }
+  constructor(private router: Router, private assessmentService: AssessmentService) { }
 
   ngOnInit() {
     let user = JSON.parse(sessionStorage.getItem('currentUser'));
@@ -22,6 +23,10 @@ export class DashboardComponent implements OnInit {
   
   onSelect(assessment: any) {
     this.selectedAssessment = assessment;
+  }
+  
+  onAssess() {
+    this.router.navigate(['/assessment', this.selectedAssessment.patent]);
   }
 
 }

@@ -47,7 +47,7 @@ export class LoginComponent implements OnInit {
   onLogin() {
     this.userService.loginUser(this.loginForm)
       .subscribe(user => {
-        sessionStorage.setItem('currentUser', JSON.stringify(user[0]));
+        sessionStorage.setItem('currentUser', JSON.stringify(user));
         this.loginDiagnostic = "Login with ID " + JSON.parse(sessionStorage.getItem('currentUser'))['_id'];
         //console.log(sessionStorage.getItem('currentUser'));
         this.router.navigate(['dashboard']);

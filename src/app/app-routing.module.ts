@@ -13,7 +13,7 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
-    path: 'assessment',
+    path: 'assessment/:id',
     canActivate: [AuthGuardService],
     component: AssessmentComponent
   },

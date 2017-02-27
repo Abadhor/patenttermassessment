@@ -100,6 +100,28 @@ router.get('/assessments/user/:id', (req, res) => {
   });
 });
 
+router.post('/assessments/', (req, res) => {
+  var ids = req.body;
+  user_id = new mongo.ObjectID(ids.user);
+  patent_id = new mongo.ObjectID(ids.patent);
+  var cursor = db.collection('assessments').find({'user': user_id, 'patent': patent_id}).toArray(function(err, results){
+    res.json(results);
+  });
+});
+
+router.put('/assessments/', (req, res) => {
+  var assessment = req.body;
+  //console.log(assessment);
+  var assessment_id = new mongo.ObjectID(assessment._id);
+  assessment.user = new mongo.ObjectID(assessment.user);
+  assessment.patent = new mongo.ObjectID(assessment.patent);
+  delete assessment._id;
+  //console.log(assessment_id);
+  var cursor = db.collection('assessments').findOneAndUpdate({'_id': assessment_id}, assessment, null, function(err, results){
+    //console.log(results);
+    res.json(results);
+  });
+});
 
 router.get('/patent/:id', (req, res) => {
   o_id = new mongo.ObjectID(req.params.id);
@@ -122,7 +144,9 @@ router.post('/user/register', (req, res) => {
       if (len == 0) {
         db.collection('users').insertOne(user, function(err, insertResults){
           createUserProfile(insertResults.ops[0]);
-          res.json(insertResults.ops);
+          var retUser = insertResults.ops[0];
+          delete retUser.password;
+          res.json(retUser);
         });
       } else {
         res.status(400)
@@ -151,7 +175,9 @@ router.post('/user/login', (req, res) => {
           "error": "Email does not exist."
         });
       } else {
-        res.json(results);
+        var retUser = results[0];
+        delete retUser.password;
+        res.json(retUser);
       }
     });
   }
