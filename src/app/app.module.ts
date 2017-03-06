@@ -12,6 +12,7 @@ import { AssessmentComponent } from './assessment/assessment.component';
 import { PatentTermsService } from './patent-terms.service';
 import { UserService } from './user.service';
 import { AuthGuardService } from './auth-guard.service';
+import { AssessmentGuardService } from './assessment-guard.service';
 import { AssessmentService } from './assessment.service';
 
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -35,6 +36,7 @@ import { LoginComponent } from './login/login.component';
     PatentTermsService,
     UserService,
     AuthGuardService,
+    AssessmentGuardService,
     AssessmentService
   ],
   bootstrap: [AppComponent]

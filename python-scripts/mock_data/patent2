@@ -1,6 +1,9 @@
+PSG-2
+EP-9999999-A1
+a,b,c,d,e
 patent 102
-c;d;e
+F01:"MACHINES OR ENGINES IN GENERAL; ENGINE PLANTS IN GENERAL; STEAM ENGINES",B01:"PHYSICAL OR CHEMICAL PROCESSES OR APPARATUS IN GENERAL"
 blue house
-blood cell count;cell count;white blood cell count;number of blood cells;blood cell
-another term;term1;term2;term3;term4;term5;term6;term7
+blood cell count,cell count,white blood cell count,number of blood cells,blood cell
+another term,term1,term2,term3,term4,term5,term6,term7
 and so

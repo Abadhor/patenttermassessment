@@ -4,7 +4,7 @@ const router = express.Router();
 const MongoClient = require('mongodb').MongoClient;
 const mongo = require('mongodb');
 
-var url = 'mongodb://localhost:27017/patent_backend';
+var url = 'mongodb://127.0.0.1:27017/patent_backend';
 
 
 //connect to DB
@@ -25,7 +25,7 @@ function convertPatentsToUserProfile(user, patentList) {
   //console.log(patentList);
   for (var i = 0; i < patentList.length; i++) {
     var patent = patentList[i];
-    var assessment = { "user": user._id, "patent": patent._id, "name": patent.name };
+    var assessment = { "user": user._id, "patent": patent._id, "name": patent.name, "ipc": patent.ipc, "method": patent.method, "domains": patent.domains, "topic": patent.topic };
     var termCandidates = [];
     var selectionCount = 0;
     //init term candidates
@@ -95,7 +95,7 @@ router.get('/domains', (req, res) => {
 
 router.get('/assessments/user/:id', (req, res) => {
   o_id = new mongo.ObjectID(req.params.id);
-  var cursor = db.collection('assessments').find({'user': o_id}).toArray(function(err, results){
+  var cursor = db.collection('assessments').find({'user': o_id}, {'sort':[['name','asc'], ['topic','asc'], ['method','asc']]}).toArray(function(err, results){
     res.json(results);
   });
 });
@@ -176,8 +176,14 @@ router.post('/user/login', (req, res) => {
         });
       } else {
         var retUser = results[0];
-        delete retUser.password;
-        res.json(retUser);
+        if (retUser.password === user.password) {
+          delete retUser.password;
+          res.json(retUser);
+        } else {
+          res.status(400).json({
+            "error": "Email does not exist."
+          });
+        }
       }
     });
   }

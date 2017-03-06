@@ -5,6 +5,7 @@ import { AssessmentComponent } from './assessment/assessment.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { LoginComponent } from './login/login.component';
 import { AuthGuardService } from './auth-guard.service';
+import { AssessmentGuardService } from './assessment-guard.service';
 
 const routes: Routes = [
   {
@@ -14,7 +15,7 @@ const routes: Routes = [
   },
   {
     path: 'assessment/:id',
-    canActivate: [AuthGuardService],
+    canActivate: [AuthGuardService, AssessmentGuardService],
     component: AssessmentComponent
   },
   {

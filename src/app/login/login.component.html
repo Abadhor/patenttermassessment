@@ -11,6 +11,10 @@
                 <label for="loginEmail">Email address</label>
                 <input type="email" class="form-control" id="loginEmail" placeholder="Email" required [(ngModel)]="loginForm.email" name="loginEmail">
               </div>
+              <div class="form-group">
+                <label for="loginPassword">Password</label>
+                <input type="password" class="form-control" id="loginPassword" placeholder="Password" required [(ngModel)]="loginForm.password" name="loginPassword">
+              </div>
               <button type="submit" class="btn btn-default">Login</button>
               <h6 id="registerInfo">{{loginDiagnostic}}</h6>
             </form>

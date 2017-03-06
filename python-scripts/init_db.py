@@ -4,7 +4,8 @@ import os
 import io
 
 
-DATA_FOLDER = "mock_data/"
+#DATA_FOLDER = "mock_data/"
+DATA_FOLDER = "D:/Projects/MasterThesis/DATAVersion/"
 
 #client = MongoClient("mongodb://mongodb0.example.net:27017")
 client = MongoClient("localhost:27017")
@@ -20,24 +21,37 @@ client = MongoClient("localhost:27017")
 db = client.patent_backend
 db.patents.drop()
 db.domains.drop()
+#db.users.drop()
+#db.assessments.drop()
 
 all_domains = set()
 
 fileList = os.listdir(DATA_FOLDER)
 for fname in fileList:
   with io.open(DATA_FOLDER + fname, 'r') as infile:
-    reader = csv.reader(infile, delimiter=';')
+    reader = csv.reader(infile, delimiter=',')
     patent = dict()
-    #read first line
-    patent_name = next(reader)[0]
-    patent['name'] = patent_name
-    #read domains
+    #method (either nlp or stat)
+    if (fname[len(fname)-3:] == "nlp"):
+      patent['method'] = "NLP"
+    else:
+      patent['method'] = "STAT"
+    #line 1: topic
+    patent['topic'] = next(reader)[0]
+    #line 2: patent-ucid
+    patent['ucid'] = next(reader)[0]
+    #line 3: domains
     patent_domains_data = next(reader)
     patent_domains = []
     for domain in patent_domains_data:
       patent_domains.append(domain)
       all_domains.add(domain)
     patent['domains'] = patent_domains
+    #line 4: title
+    patent_name = next(reader)[0]
+    patent['name'] = patent_name
+    #line 5: ipcs
+    patent['ipc'] = next(reader)
     #read term candidates
     term_candidates = []
     term_candidate_count = 0

@@ -48,11 +48,11 @@ export class LoginComponent implements OnInit {
     this.userService.loginUser(this.loginForm)
       .subscribe(user => {
         sessionStorage.setItem('currentUser', JSON.stringify(user));
-        this.loginDiagnostic = "Login with ID " + JSON.parse(sessionStorage.getItem('currentUser'))['_id'];
+        //this.loginDiagnostic = "Login with ID " + JSON.parse(sessionStorage.getItem('currentUser'))['_id'];
         //console.log(sessionStorage.getItem('currentUser'));
         this.router.navigate(['dashboard']);
       },
-      error => {this.loginDiagnostic = "Email not registered."});
+      error => {this.loginDiagnostic = "Email/Password missmatch."});
   }
   
   onLogout() {

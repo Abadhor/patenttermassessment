@@ -23,6 +23,7 @@ export class DashboardComponent implements OnInit {
   
   onSelect(assessment: any) {
     this.selectedAssessment = assessment;
+    sessionStorage.setItem('selectedAssessment', this.selectedAssessment.patent);
   }
   
   onAssess() {
