@@ -10,7 +10,7 @@
     "pree2e": "webdriver-manager update --standalone false --gecko false",
     "e2e": "protractor",
     "start": "ng build && node server.js",
-    "prod": "ng build --prod --bh /assessment/patenttermassessment/dist/ && NODE_ENV=production node server.js"
+    "prod": "ng build --prod --bh /assessment/ && NODE_ENV=production node server.js"
   },
   "private": true,
   "dependencies": {
