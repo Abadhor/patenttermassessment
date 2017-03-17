@@ -93,6 +93,25 @@ router.get('/domains', (req, res) => {
   });
 });
 
+router.get('/pdfs/:id', (req, res) => {
+  //EP-1237134-A2
+  var ucid = req.params.id
+  var cursor = db.collection('pdfs').find({'ucid':ucid}).toArray(function(err, results){
+    var len = results.length;
+    if (len == 0) {
+      res.status(404)
+      .json({
+        "error": "Email does not exist."
+      });
+    } else {
+      var data = results[0]['data'].buffer;
+      //console.log(results[0]);
+      res.contentType("application/pdf");
+      res.send(data);
+    }
+  });
+});
+
 router.get('/assessments/user/:id', (req, res) => {
   o_id = new mongo.ObjectID(req.params.id);
   var cursor = db.collection('assessments').find({'user': o_id}, {'sort':[['name','asc'], ['topic','asc'], ['method','asc']]}).toArray(function(err, results){

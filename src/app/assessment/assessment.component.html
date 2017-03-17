@@ -1,5 +1,9 @@
 <div class="row fill">
-  <div class="col-md-6">.col-md-6</div>
+  <div class="col-md-6 fill">
+    <div class="embed-responsive fill" style="padding-bottom:100%" *ngIf="pdfURL">
+      <object [attr.data]="pdfURL | safe" type="application/pdf" width="100%" height="100%"></object>
+    </div>
+  </div>
   <div class="col-md-6 fill">
     <div class="row fill" *ngIf="assessment">
       <div class="col-sm-6 scrolling">

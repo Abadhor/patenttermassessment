@@ -17,13 +17,15 @@ import { AssessmentService } from './assessment.service';
 
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { LoginComponent } from './login/login.component';
+import { SafePipe } from './safe.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
     AssessmentComponent,
     DashboardComponent,
-    LoginComponent
+    LoginComponent,
+    SafePipe
   ],
   imports: [
     BrowserModule,

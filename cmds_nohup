@@ -1,0 +1,13 @@
+first do
+ng build --prod --bh /assessment/
+OR
+npm run prod
+and kill server
+
+then 
+nohup node server.js >../assessment.log 2>../assessment.err &
+
+
+to terminate get process id with
+ps xw
+kill ID

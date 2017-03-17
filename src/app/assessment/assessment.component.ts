@@ -19,6 +19,10 @@ export class AssessmentComponent implements OnInit {
   
   selectedCandidate: any;
   selectedRelatedTerm: any;
+  
+  DOMAIN: string = "http://localhost:3000"
+  ucid: string;
+  pdfURL: string;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -31,15 +35,16 @@ export class AssessmentComponent implements OnInit {
       this.patentTermsService.getPatent(params['id'])).subscribe(patent => {
         this.patent = patent[0];
         this.term_candidates = this.patent.term_candidates;
-        console.log(JSON.stringify(this.term_candidates));
+        this.ucid = this.patent.ucid;
+        this.pdfURL = this.DOMAIN+"/api/pdfs/"+this.ucid;
+        console.log(this.pdfURL);
+        //console.log(JSON.stringify(this.term_candidates));
         let user = JSON.parse(sessionStorage.getItem('currentUser'));
         this.assessmentService.getAssessment({user:user._id, patent:this.patent._id}).subscribe(assessment => {
           this.assessment = assessment[0];
-          console.log(JSON.stringify(this.assessment.term_candidates));
+          //console.log(JSON.stringify(this.assessment.term_candidates));
         });
       });
-      
-    
   }
   
   getAssessmentTermCandidate(term_candidate: any) {

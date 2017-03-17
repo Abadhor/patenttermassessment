@@ -6,6 +6,7 @@ import io
 
 #DATA_FOLDER = "mock_data/"
 DATA_FOLDER = "D:/Projects/MasterThesis/DATAVersion/"
+PDF_FOLDER = "D:/Projects/MasterThesis/pdfs/"
 
 #client = MongoClient("mongodb://mongodb0.example.net:27017")
 client = MongoClient("localhost:27017")
@@ -21,6 +22,7 @@ client = MongoClient("localhost:27017")
 db = client.patent_backend
 db.patents.drop()
 db.domains.drop()
+db.pdfs.drop()
 #db.users.drop()
 #db.assessments.drop()
 
@@ -84,3 +86,16 @@ for domain_name in all_domains:
   domain = dict()
   domain['name'] = domain_name
   db.domains.insert_one(domain)
+
+#save pdfs
+fileList = os.listdir(PDF_FOLDER)
+for fname in fileList:
+  with io.open(PDF_FOLDER + fname, 'rb') as infile:
+    #get into right format EP-1234567-A1
+    ucid = fname[:2]+'-'+fname[2:9]+'-'+fname[10:12]
+    pdf_data = infile.read()
+    pdf = dict()
+    pdf['ucid'] = ucid
+    pdf['data'] = pdf_data
+    pdf_id = db.pdfs.insert_one(pdf)
+    
