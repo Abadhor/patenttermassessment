@@ -3,6 +3,7 @@ const router = express.Router();
 
 const MongoClient = require('mongodb').MongoClient;
 const mongo = require('mongodb');
+const moment = require('moment');
 
 var url = 'mongodb://127.0.0.1:27017/patent_backend';
 
@@ -19,6 +20,10 @@ MongoClient.connect(url, (err, database) => {
 
 function isEmpty(obj) {
   return Object.keys(obj).length === 0;
+}
+
+function timeLog(str) {
+  console.log("["+ moment().format() + "] " + str);
 }
 
 function convertPatentsToUserProfile(user, patentList) {
@@ -165,6 +170,7 @@ router.post('/user/register', (req, res) => {
           createUserProfile(insertResults.ops[0]);
           var retUser = insertResults.ops[0];
           delete retUser.password;
+          timeLog("Register user: " + JSON.stringify(retUser));
           res.json(retUser);
         });
       } else {
@@ -197,6 +203,7 @@ router.post('/user/login', (req, res) => {
         var retUser = results[0];
         if (retUser.password === user.password) {
           delete retUser.password;
+          timeLog("Login user: " + retUser.email);
           res.json(retUser);
         } else {
           res.status(400).json({

@@ -30,19 +30,19 @@
               <div class="form-group">
                 <label >Primary Domain</label>
                 <select class="form-control" id="primaryDomain" [(ngModel)]="registerForm.primaryDomain" name="primaryDomain" required>
-                  <option *ngFor="let domain of domainsPrimary" [value]="domain">{{domain}}</option>
+                  <option *ngFor="let domain of domainsPrimary" [ngValue]="domain" [selected]="domain ==='all'">{{domain}}</option>
                 </select>
               </div>
               <div class="form-group">
                 <label >Secondary Domain</label>
                 <select class="form-control" id="secondaryDomain" [(ngModel)]="registerForm.secondaryDomain" name="secondaryDomain" required>
-                  <option *ngFor="let domain of domainsOther" [value]="domain">{{domain}}</option>
+                  <option *ngFor="let domain of domainsOther" [ngValue]="domain" [selected]="domain ==='none'">{{domain}}</option>
                 </select>
               </div>
               <div class="form-group">
                 <label >Tertiary Domain</label>
                 <select class="form-control" id="tertiaryDomain" [(ngModel)]="registerForm.tertiaryDomain" name="tertiaryDomain" required>
-                  <option *ngFor="let domain of domainsOther" [value]="domain">{{domain}}</option>
+                  <option *ngFor="let domain of domainsOther" [ngValue]="domain" [selected]="domain ==='none'">{{domain}}</option>
                 </select>
               </div>
               <!--<div class="form-group">

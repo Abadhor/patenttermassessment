@@ -4,6 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { AssessmentComponent } from './assessment/assessment.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { LoginComponent } from './login/login.component';
+import { GuideComponent } from './guide/guide.component';
 import { AuthGuardService } from './auth-guard.service';
 import { AssessmentGuardService } from './assessment-guard.service';
 
@@ -22,6 +23,11 @@ const routes: Routes = [
     path: 'dashboard',
     canActivate: [AuthGuardService],
     component: DashboardComponent
+  },
+  {
+    path: 'guide',
+    canActivate: [AuthGuardService],
+    component: GuideComponent
   },
   {
     path: '**',

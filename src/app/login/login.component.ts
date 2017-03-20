@@ -22,12 +22,20 @@ export class LoginComponent implements OnInit {
   constructor(private router: Router, private userService: UserService) { }
 
   ngOnInit() {
-    //this.registerForm.domains = {};
+    //if already logged in
+    if (sessionStorage.getItem('currentUser')) {
+      this.router.navigate(['dashboard']);
+    }
+    
+    //get domains
     this.userService.getDomains().subscribe(domains => {
       for (let domain of domains) {
         this.domainsPrimary.push(domain.name);
         this.domainsOther.push(domain.name);
       }
+      this.registerForm.primaryDomain = this.domainsPrimary[0];
+      this.registerForm.secondaryDomain = this.domainsOther[0];
+      this.registerForm.tertiaryDomain = this.domainsOther[0];
     });
   }
   

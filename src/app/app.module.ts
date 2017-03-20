@@ -18,6 +18,7 @@ import { AssessmentService } from './assessment.service';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { LoginComponent } from './login/login.component';
 import { SafePipe } from './safe.pipe';
+import { GuideComponent } from './guide/guide.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { SafePipe } from './safe.pipe';
     AssessmentComponent,
     DashboardComponent,
     LoginComponent,
-    SafePipe
+    SafePipe,
+    GuideComponent
   ],
   imports: [
     BrowserModule,
