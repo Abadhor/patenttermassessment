@@ -71,15 +71,27 @@ export class AssessmentComponent implements OnInit {
   }
   
   getSearchQuality(term_candidate: any) {
-    // if (this.assessment) {
-      return this.getAssessmentTermCandidate(term_candidate).search_quality;
-    // } else {
-      // return null;
-    // }
+    return this.getAssessmentTermCandidate(term_candidate).search_quality;
   }
   
   getRelationship(term_candidate: any, related_term: any) {
     return this.getAssessmentRelatedTerm(term_candidate, related_term).relationship;
+  }
+  
+  isAssessedTermCandidate(term_candidate: any) {
+    if (this.getSearchQuality(term_candidate) != -1) {
+      return "panel-success"
+    } else {
+      return "";
+    }
+  }
+  
+  isAssessedRelatedTerm(term_candidate: any, related_term: any) {
+    if (this.getRelationship(term_candidate, related_term) != -1) {
+      return "panel-success"
+    } else {
+      return "";
+    }
   }
   
   onSelectCandidate(candidate: any) {

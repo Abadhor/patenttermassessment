@@ -9,7 +9,7 @@
       <div class="col-sm-6 scrolling">
         <accordion [closeOthers]="true">
           <accordion-group heading="Search Term Candidates" panelClass="candidatesClass" [isDisabled]="true"></accordion-group>
-          <accordion-group heading="{{termCandidate.name}}" *ngFor="let termCandidate of term_candidates" (click)="onSelectCandidate(termCandidate)">
+          <accordion-group heading="{{termCandidate.name}}" [panelClass]="isAssessedTermCandidate(termCandidate)" *ngFor="let termCandidate of term_candidates" (click)="onSelectCandidate(termCandidate)">
             <div>Useable as a search term:</div>
             <label class="radio-inline">
               <input type="radio" name="{{termCandidate.id}}-candidates" value="good" 
@@ -32,7 +32,7 @@
       <div class="col-sm-6 scrolling">
         <accordion [closeOthers]="true">
           <accordion-group heading="Related Terms" panelClass="relatedClass" [isDisabled]="true"></accordion-group>
-          <accordion-group heading="{{relatedTerm.name}}" *ngFor="let relatedTerm of related_terms" (click)="onSelectRelated(relatedTerm)">
+          <accordion-group heading="{{relatedTerm.name}}" [panelClass]="isAssessedRelatedTerm(selectedCandidate, relatedTerm)" *ngFor="let relatedTerm of related_terms" (click)="onSelectRelated(relatedTerm)">
             <div>Relation to "{{selectedCandidate.name}}":</div>
             <div class="radio">
               <label>
