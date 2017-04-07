@@ -8,6 +8,10 @@ L_EMPTY = -1
 L_GOOD = 0
 L_IN_CONTEXT = 1
 L_BAD = 2
+L_SYNONYM = 0
+L_HYPERNYM = 1
+L_HYPONYM = 2
+L_NONE = 3
 SAVE_FOLDER = "D:/Projects/MasterThesis/asssessed_topics/"
 
 client = MongoClient("localhost:27017")
@@ -60,14 +64,49 @@ def getTermCandidateString(term_candidate):
   
   line = line + good + ',' + inContext + ',' + bad + ',,' + full + ',' + empty + '\n'
   return line
+  
+def getRelatedTermString(term_candidate):
+  full_string = ''
+  line = '\"'+term_candidate['tc_name']+'\"' + ',,'
+  tmp = '{:.2f}'
+  related = term_candidate['tc_related_terms']
+  for rt in related:
+    cur_line = line + '\"'+rt['rt_name']+'\"' + ',,'
+    asmnt = rt['rt_assessment']
+    c_empty = asmnt[L_EMPTY]
+    c_synonym = asmnt[L_SYNONYM]
+    c_hypernym = asmnt[L_HYPERNYM]
+    c_hyponym = asmnt[L_HYPONYM]
+    c_none = asmnt[L_NONE]
+    sum = c_synonym + c_hypernym + c_hyponym + c_none
+    empty = tmp.format(c_empty / (sum + c_empty))
+    full = tmp.format(sum / (sum + c_empty))
+    if sum > 0:
+      synonym = tmp.format(c_synonym / sum)
+      hypernym = tmp.format(c_hypernym / sum)
+      hyponym = tmp.format(c_hyponym / sum)
+      none = tmp.format(c_none / sum)
+    else:
+      synonym = str(0)
+      hypernym = str(0)
+      hyponym = str(0)
+      none = str(0)
+    full_string = full_string + cur_line + synonym + ',' + hypernym + ',' + hyponym + ',' + none + ',,' + full + ',' + empty + '\n'
+  return full_string
+    
+  
 
 def writeTopicFile(folder, topic):
   fname = topic['topic']+'_'+topic['method']+'.csv'
-  with io.open(folder + fname, 'w') as outfile:
+  r_fname = '[rel]'+topic['topic']+'_'+topic['method']+'.csv'
+  with io.open(folder + fname, 'w') as outfile, io.open(folder + r_fname, 'w') as r_outfile:
     outfile.write("Term Candidate,,Good,In Context,Bad,,Evaluated,Not Evaluated\n")
+    r_outfile.write("Term Candidate,,Related Term,,Synonym,Hypernym,Hyponym,None,,Evaluated,Not Evaluated\n")
     for tc in topic['term_candidates']:
       outfile.write(getTermCandidateString(tc))
+      r_outfile.write(getRelatedTermString(tc))
     outfile.close()
+    r_outfile.close()
 
 
 UCIDs = getPatentUCIDs(db)
@@ -97,7 +136,7 @@ for id in UCIDs:
       if 'related_terms' in tc:
         for rt in tc['related_terms']:
           # TODO: update
-          rt_assessmentCounts = {-1:0, 0:0, 1:0, 2:0}
+          rt_assessmentCounts = {-1:0, 0:0, 1:0, 2:0, 3:0}
           related_term_dict = {'rt_name':rt['name']}
           for asmnt in assessments:
             #get assessment of each related term by id
