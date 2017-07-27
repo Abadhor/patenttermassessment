@@ -106,13 +106,34 @@ router.get('/pdfs/:id', (req, res) => {
     if (len == 0) {
       res.status(404)
       .json({
-        "error": "Email does not exist."
+        "error": "PDF does not exist."
       });
     } else {
       var data = results[0]['data'].buffer;
       //console.log(results[0]);
       res.contentType("application/pdf");
       res.send(data);
+    }
+  });
+});
+
+router.get('/pdf-texts/:id', (req, res) => {
+  //EP-1237134-A2
+  var ucid = req.params.id
+  var cursor = db.collection('pdfs').find({'ucid':ucid}).toArray(function(err, results){
+    var len = results.length;
+    if (len == 0) {
+      res.status(404)
+      .json({
+        "error": "PDF does not exist."
+      });
+    } else {
+      var texts = {}
+      texts['title'] = results[0]['title'];
+      texts['abstract'] = results[0]['abstract'];
+      texts['claim'] = results[0]['claim'];
+      texts['description'] = results[0]['description'];
+      res.json(texts);
     }
   });
 });

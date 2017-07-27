@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { PatentTermsService } from '../patent-terms.service';
 import { AssessmentService } from '../assessment.service';
+import { PatentTextService } from '../patent-text.service';
 import 'rxjs/add/operator/switchMap';
 
 @Component({
@@ -13,6 +14,7 @@ export class AssessmentComponent implements OnInit {
 
   
   patent: any;
+  patentText: any;
   assessment: any;
   term_candidates: any[] = [];
   related_terms: any[] = [];
@@ -23,10 +25,12 @@ export class AssessmentComponent implements OnInit {
   DOMAIN: string = "http://localhost:3000"
   ucid: string;
   pdfURL: string;
+  displayMode: string = "pdf";
 
   constructor(private route: ActivatedRoute,
               private router: Router,
               private patentTermsService: PatentTermsService,
+              private patentTextService: PatentTextService,
               private assessmentService: AssessmentService) { }
 
   ngOnInit() {
@@ -43,6 +47,10 @@ export class AssessmentComponent implements OnInit {
         this.assessmentService.getAssessment({user:user._id, patent:this.patent._id}).subscribe(assessment => {
           this.assessment = assessment[0];
           //console.log(JSON.stringify(this.assessment.term_candidates));
+        });
+        this.patentTextService.getText(this.ucid).subscribe(patentText => {
+          this.patentText = patentText;
+          //console.log(JSON.stringify(patentText));
         });
       });
   }
@@ -97,6 +105,7 @@ export class AssessmentComponent implements OnInit {
   onSelectCandidate(candidate: any) {
     this.selectedCandidate = candidate;
     this.related_terms = this.selectedCandidate.related_terms;
+    this.selectedRelatedTerm = undefined;
   }
   
   onSelectRelated(related: any) {
@@ -126,6 +135,10 @@ export class AssessmentComponent implements OnInit {
     this.assessmentService.updateAssessment(this.assessment).subscribe(assessment => {
 
     });
+  }
+  
+  onSelectMode(mode: string) {
+    this.displayMode = mode;
   }
   
   compareIds(a, b) {

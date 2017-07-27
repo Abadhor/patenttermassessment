@@ -10,6 +10,7 @@ import { AppComponent } from './app.component';
 import { AssessmentComponent } from './assessment/assessment.component';
 
 import { PatentTermsService } from './patent-terms.service';
+import { PatentTextService } from './patent-text.service';
 import { UserService } from './user.service';
 import { AuthGuardService } from './auth-guard.service';
 import { AssessmentGuardService } from './assessment-guard.service';
@@ -19,6 +20,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { LoginComponent } from './login/login.component';
 import { SafePipe } from './safe.pipe';
 import { GuideComponent } from './guide/guide.component';
+import { PatentTextComponent } from './patent-text/patent-text.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +29,8 @@ import { GuideComponent } from './guide/guide.component';
     DashboardComponent,
     LoginComponent,
     SafePipe,
-    GuideComponent
+    GuideComponent,
+    PatentTextComponent
   ],
   imports: [
     BrowserModule,
@@ -38,6 +41,7 @@ import { GuideComponent } from './guide/guide.component';
   ],
   providers: [
     PatentTermsService,
+    PatentTextService,
     UserService,
     AuthGuardService,
     AssessmentGuardService,

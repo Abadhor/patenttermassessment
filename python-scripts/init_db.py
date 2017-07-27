@@ -2,11 +2,12 @@ from pymongo import MongoClient
 import csv
 import os
 import io
-
+import json
 
 #DATA_FOLDER = "mock_data/"
 DATA_FOLDER = "D:/Projects/MasterThesis/DATAVersion/"
 PDF_FOLDER = "D:/Projects/MasterThesis/pdfs/"
+JSON_FOLDER = "D:/Projects/MasterThesis/jason_assessment_tool/"
 
 #client = MongoClient("mongodb://mongodb0.example.net:27017")
 client = MongoClient("localhost:27017")
@@ -98,4 +99,34 @@ for fname in fileList:
     pdf['ucid'] = ucid
     pdf['data'] = pdf_data
     pdf_id = db.pdfs.insert_one(pdf)
-    
+
+fileList = os.listdir(JSON_FOLDER)
+for fname in fileList:
+  if fname[len(fname)-4:] == 'json':
+    with io.open(JSON_FOLDER + fname, 'r') as infile:
+      #get into right format EP-1234567-A1
+      ucid = fname[:13]
+      root = json.load(infile)
+      if len(root['data']['bibliographic']['abstract']) == 1:
+        abstract = root['data']['bibliographic']['abstract'][0]['text']
+      else:
+        print("ucid:",ucid,"abstracts:",len(root['data']['bibliographic']['abstract']))
+        abstract = None
+      if root['data']['claim'] != None:
+        claim = root['data']['claim']['text']
+      else:
+        print("ucid:",ucid,"claim: None")
+        claim = None
+      if root['data']['description'] != None:
+        description = root['data']['description']['text']
+      else:
+        print("ucid:",ucid,"description: None")
+        description = None
+      title = None
+      for l in root['data']['bibliographic']['title']:
+        if l['language'] == 'en':
+          title = l['text']
+      if title == None:
+        print("ucid:",ucid,"title: None")
+      db.pdfs.update({'ucid':ucid}, {'$set':{'abstract':abstract,'claim':claim,'description':description,'title':title}}, upsert=False)
+      

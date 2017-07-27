@@ -11,6 +11,20 @@ body {
   height: 100%;
 }
 
+.pdf-title {
+  height: 50px;
+}
+
+.big-font {
+  font-size: 125%;
+}
+
+.pdf-body {
+  height: -webkit-calc(100% - 50px);
+  height: -moz-calc(100% - 50px);
+  height: calc(100% - 50px);
+}
+
 .scrolling {
   height: 100%;
   overflow-y: scroll;

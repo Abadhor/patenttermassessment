@@ -1,7 +1,18 @@
 <div class="row fill">
   <div class="col-md-6 fill">
-    <div class="embed-responsive fill" style="padding-bottom:100%" *ngIf="pdfURL">
-      <object [attr.data]="pdfURL | safe" type="application/pdf" width="100%" height="100%"></object>
+    <div class="row pdf-title">
+      <div class="col-sm-12 fill">
+        <button type="button" class="btn" [class.btn-default]="displayMode != 'pdf'" [class.btn-primary]="displayMode == 'pdf'" (click)="onSelectMode('pdf')">PDF</button>
+        <button type="button" class="btn" [class.btn-default]="displayMode != 'text'" [class.btn-primary]="displayMode == 'text'" (click)="onSelectMode('text')">Text</button>
+      </div>
+    </div>
+    <div class="row pdf-body" *ngIf="displayMode == 'pdf'">
+      <div class="embed-responsive" style="padding-bottom: calc(100% - 50px); padding-bottom: -moz-calc(100% - 50px); padding-bottom: -webkit-calc(100% - 50px);" *ngIf="pdfURL">
+        <object [attr.data]="pdfURL | safe" type="application/pdf" width="100%" height="100%"></object>
+      </div>
+    </div>
+    <div class="row pdf-body" *ngIf="displayMode == 'text'">
+      <app-patent-text [text]="patentText" [termCandidate]="selectedCandidate" [relatedTerm]="selectedRelatedTerm"></app-patent-text>
     </div>
   </div>
   <div class="col-md-6 fill">
