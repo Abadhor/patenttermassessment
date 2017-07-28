@@ -25,7 +25,7 @@ export class AssessmentComponent implements OnInit {
   DOMAIN: string = "http://localhost:3000"
   ucid: string;
   pdfURL: string;
-  displayMode: string = "pdf";
+  displayMode: string = "text";
 
   constructor(private route: ActivatedRoute,
               private router: Router,

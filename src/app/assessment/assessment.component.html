@@ -11,7 +11,7 @@
         <object [attr.data]="pdfURL | safe" type="application/pdf" width="100%" height="100%"></object>
       </div>
     </div>
-    <div class="row pdf-body" *ngIf="displayMode == 'text'">
+    <div class="row pdf-body" *ngIf="displayMode == 'text' && patentText">
       <app-patent-text [text]="patentText" [termCandidate]="selectedCandidate" [relatedTerm]="selectedRelatedTerm"></app-patent-text>
     </div>
   </div>
@@ -21,22 +21,28 @@
         <accordion [closeOthers]="true">
           <accordion-group heading="Search Term Candidates" panelClass="candidatesClass" [isDisabled]="true"></accordion-group>
           <accordion-group heading="{{termCandidate.name}}" [panelClass]="isAssessedTermCandidate(termCandidate)" *ngFor="let termCandidate of term_candidates" (click)="onSelectCandidate(termCandidate)">
-            <div>Useable as a search term:</div>
-            <label class="radio-inline">
-              <input type="radio" name="{{termCandidate.id}}-candidates" value="good" 
-              [checked]="getSearchQuality(termCandidate) === 0" 
-              (click)="onSelectSearchQuality(termCandidate, 0)"> Good
-            </label>
-            <label class="radio-inline">
-              <input type="radio" name="{{termCandidate.id}}-candidates" value="in-context" 
-              [checked]="getSearchQuality(termCandidate) === 1"
-              (click)="onSelectSearchQuality(termCandidate, 1)"> In Context
-            </label>
-            <label class="radio-inline">
-              <input type="radio" name="{{termCandidate.id}}-candidates" value="bad" 
-              [checked]="getSearchQuality(termCandidate) === 2"
-              (click)="onSelectSearchQuality(termCandidate, 2)"> Bad
-            </label>
+            <div>Termhoodness:</div>
+            <div class="radio">
+              <label>
+                <input type="radio" name="{{termCandidate.id}}-candidates" value="keyphrase" 
+                [checked]="getSearchQuality(termCandidate) === 0" 
+                (click)="onSelectSearchQuality(termCandidate, 0)"> Search Term / Keyphrase
+              </label>
+            </div>
+            <div class="radio">
+              <label>
+                <input type="radio" name="{{termCandidate.id}}-candidates" value="term" 
+                [checked]="getSearchQuality(termCandidate) === 1"
+                (click)="onSelectSearchQuality(termCandidate, 1)"> Technical Term
+              </label>
+            </div>
+            <div class="radio">
+              <label>
+                <input type="radio" name="{{termCandidate.id}}-candidates" value="none" 
+                [checked]="getSearchQuality(termCandidate) === 2"
+                (click)="onSelectSearchQuality(termCandidate, 2)"> Not a Technical Term
+              </label>
+            </div>
           </accordion-group>
         </accordion>
       </div>
@@ -49,28 +55,56 @@
               <label>
                 <input type="radio" name="{{selectedCandidate.id}}-{{relatedTerm.id}}-related" value="synonym"
                 [checked]="getRelationship(selectedCandidate, relatedTerm) === 0"
-                (click)="onSelectRelationship(selectedCandidate, relatedTerm, 0)">Synonym
+                (click)="onSelectRelationship(selectedCandidate, relatedTerm, 0)">Is Synonym of
               </label>
             </div>
             <div class="radio">
               <label>
                 <input type="radio" name="{{selectedCandidate.id}}-{{relatedTerm.id}}-related" value="hyponym"
                 [checked]="getRelationship(selectedCandidate, relatedTerm) === 1"
-                (click)="onSelectRelationship(selectedCandidate, relatedTerm, 1)">Hyponym
+                (click)="onSelectRelationship(selectedCandidate, relatedTerm, 1)">Is Hyponym of
               </label>
             </div>
             <div class="radio">
               <label>
                 <input type="radio" name="{{selectedCandidate.id}}-{{relatedTerm.id}}-related" value="hypernym"
                 [checked]="getRelationship(selectedCandidate, relatedTerm) === 2"
-                (click)="onSelectRelationship(selectedCandidate, relatedTerm, 2)">Hypernym
+                (click)="onSelectRelationship(selectedCandidate, relatedTerm, 2)">Is Hypernym of
+              </label>
+            </div>
+            <div class="radio">
+              <label>
+                <input type="radio" name="{{selectedCandidate.id}}-{{relatedTerm.id}}-related" value="acronym"
+                [checked]="getRelationship(selectedCandidate, relatedTerm) === 3"
+                (click)="onSelectRelationship(selectedCandidate, relatedTerm, 3)">Is Acronym of
+              </label>
+            </div>
+            <div class="radio">
+              <label>
+                <input type="radio" name="{{selectedCandidate.id}}-{{relatedTerm.id}}-related" value="antonym"
+                [checked]="getRelationship(selectedCandidate, relatedTerm) === 4"
+                (click)="onSelectRelationship(selectedCandidate, relatedTerm, 4)">Is Antonym of
+              </label>
+            </div>
+            <div class="radio">
+              <label>
+                <input type="radio" name="{{selectedCandidate.id}}-{{relatedTerm.id}}-related" value="word-form"
+                [checked]="getRelationship(selectedCandidate, relatedTerm) === 5"
+                (click)="onSelectRelationship(selectedCandidate, relatedTerm, 5)">Is another word form
+              </label>
+            </div>
+            <div class="radio">
+              <label>
+                <input type="radio" name="{{selectedCandidate.id}}-{{relatedTerm.id}}-related" value="part"
+                [checked]="getRelationship(selectedCandidate, relatedTerm) === 6"
+                (click)="onSelectRelationship(selectedCandidate, relatedTerm, 6)">Is part of
               </label>
             </div>
             <div class="radio">
               <label>
                 <input type="radio" name="{{selectedCandidate.id}}-{{relatedTerm.id}}-related" value="none"
-                [checked]="getRelationship(selectedCandidate, relatedTerm) === 3"
-                (click)="onSelectRelationship(selectedCandidate, relatedTerm, 3)">None
+                [checked]="getRelationship(selectedCandidate, relatedTerm) === 7"
+                (click)="onSelectRelationship(selectedCandidate, relatedTerm, 7)">None
               </label>
             </div>
           </accordion-group>
