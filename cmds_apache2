@@ -1,5 +1,7 @@
 in /etc/apache2/conf-available create file CUSTOM.conf:
-ProxyPass /node http://localhost:3000/
+ProxyPass /assessment http://localhost:3000/
+ProxyPass /api http://localhost:3000/api
+ProxyPass /assets http://localhost:3000/assets
 
 
 sudo a2enconf CUSTOM
@@ -8,6 +10,6 @@ sudo a2enconf CUSTOM
 sudo a2enmod proxy_http
 
 to check if enabled
-sudo a2query -m MODULE_NAME
+sudo a2query -m CUSTOM
 
 sudo service apache2 restart
