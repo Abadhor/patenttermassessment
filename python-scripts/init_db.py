@@ -8,6 +8,9 @@ import json
 DATA_FOLDER = "D:/Projects/MasterThesis/DATAVersion/"
 PDF_FOLDER = "D:/Projects/MasterThesis/pdfs/"
 JSON_FOLDER = "D:/Projects/MasterThesis/jason_assessment_tool/"
+#DATA_FOLDER = "/home/tfink/DATAVersion/"
+#PDF_FOLDER = "/home/tfink/pdfs/"
+#JSON_FOLDER = "/home/tfink/jason_assessment_tool/"
 
 #client = MongoClient("mongodb://mongodb0.example.net:27017")
 client = MongoClient("localhost:27017")
